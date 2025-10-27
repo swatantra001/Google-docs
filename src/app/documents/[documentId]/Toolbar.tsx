@@ -2,7 +2,7 @@
 
 import { Separator } from "@/components/ui/separator";
 
-import { BoldIcon, Heading, Icon, ItalicIcon, ListCollapseIcon, ListTodoIcon, LucideIcon, MessageSquarePlusIcon, MinusIcon, PlusIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, SpellCheckIcon, UnderlineIcon, Undo2Icon } from "lucide-react";
+import { BoldIcon, ItalicIcon, ListCollapseIcon, ListTodoIcon, LucideIcon, MessageSquarePlusIcon, MinusIcon, PlusIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, SpellCheckIcon, UnderlineIcon, Undo2Icon } from "lucide-react";
 import {type Level} from '@tiptap/extension-heading'
 import {SketchPicker, type ColorResult} from 'react-color'
 import { useEditorStore } from '@/store/use-editor-store'
@@ -13,7 +13,7 @@ import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog"
-import { labelDayButton } from "react-day-picker";
+import { TooltipProvider, TooltipTrigger, TooltipContent, Tooltip } from "@/components/ui/tooltip";
 
 
 export const FontFamilyButton = ()=>{
@@ -30,17 +30,24 @@ export const FontFamilyButton = ()=>{
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<button
-					className={cn(
-						"h-7 w-[120px] shrink-0 flex items-center justify-between rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
-					)}>
-					<span className='truncate'>
-						{editor?.getAttributes("textStyle").fontFamily || "Arial"}
-					</span>
-					<ChevronDownIcon className="size-4 ml-2 shrink-0" />
-				</button>
-			</DropdownMenuTrigger>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<DropdownMenuTrigger asChild>
+						<button
+							className={cn(
+								"h-7 w-[120px] shrink-0 flex items-center justify-between rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
+							)}>
+							<span className='truncate'>
+								{editor?.getAttributes("textStyle").fontFamily || "Arial"}
+							</span>
+							<ChevronDownIcon className="size-4 ml-2 shrink-0" />
+						</button>
+					</DropdownMenuTrigger>
+				</TooltipTrigger>
+				<TooltipContent side="bottom">
+					<span>Font</span>
+				</TooltipContent>
+			</Tooltip>
 			<DropdownMenuContent className='p-1 flex flex-col gap-y-1'>
 				{fonts.map((font)=> (
 					<DropdownMenuItem
@@ -83,17 +90,22 @@ export const HeadingLevelButton = ()=>{
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<button
-					className={cn(
-						"h-7 min-w-7 shrink-0 flex items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
-					)}>
-					<span className='truncate'>
-						{getCurrentHeading()}
-					</span>
-					<ChevronDownIcon className="size-4 ml-2 shrink-0" />
-				</button>
-			</DropdownMenuTrigger>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<DropdownMenuTrigger asChild>
+						<button
+							className={cn(
+								"h-7 min-w-7 shrink-0 flex items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
+							)}>
+							<span className='truncate'>
+								{getCurrentHeading()}
+							</span>
+							<ChevronDownIcon className="size-4 ml-2 shrink-0" />
+						</button>
+					</DropdownMenuTrigger>
+				</TooltipTrigger>
+				<TooltipContent side="top" sideOffset={5}>Heading</TooltipContent>
+			</Tooltip>
 			<DropdownMenuContent className='p-1 flex flex-col gap-y-1'>
 				{headings.map((heading)=> (
 					<DropdownMenuItem
@@ -133,15 +145,20 @@ export const TextColorButton = () => {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<button
-					className={cn(
-						"h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
-					)}>
-					<span className='text-xs'>A</span>
-					<div className='h-0.5 w-full' style={{backgroundColor: value}}/>
-				</button>
-			</DropdownMenuTrigger>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<DropdownMenuTrigger asChild>
+						<button
+							className={cn(
+								"h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
+							)}>
+							<span className='text-xs'>A</span>
+							<div className='h-0.5 w-full' style={{backgroundColor: value}}/>
+						</button>
+					</DropdownMenuTrigger>
+				</TooltipTrigger>
+				<TooltipContent side="top" sideOffset={5}>Text color</TooltipContent>
+			</Tooltip>
 			<DropdownMenuContent className='p-0'>
 				<SketchPicker color={value} onChange={onChange} />
 			</DropdownMenuContent>
@@ -160,14 +177,19 @@ export const HighlightColorButton = () => {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<button
-					className={cn(
-						"h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
-					)}>
-					<HighlighterIcon className='size-4' />
-				</button>
-			</DropdownMenuTrigger>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<DropdownMenuTrigger asChild>
+						<button
+							className={cn(
+								"h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
+							)}>
+							<HighlighterIcon className='size-4' />
+						</button>
+					</DropdownMenuTrigger>
+				</TooltipTrigger>
+				<TooltipContent side="top" sideOffset={5}>Highlight</TooltipContent>
+			</Tooltip>
 			<DropdownMenuContent className='p-0'>
 				<SketchPicker color={value} onChange={onChange} />
 			</DropdownMenuContent>
@@ -184,29 +206,72 @@ export const LinkButton = () => {
 		setValue("");
 	}
 
-	return (
-		<DropdownMenu onOpenChange={(open) =>{
-			if(open){
-				 setValue(editor?.getAttributes("link").href || "")
-				}
-			}}>
+	// return (
+	// 	<Tooltip>
+	// 		<TooltipTrigger asChild>
+	// 			<DropdownMenu onOpenChange={(open) =>{
+	// 				if(open){
+	// 					setValue(editor?.getAttributes("link").href || "")
+	// 					}
+	// 				}}>
 
-			<DropdownMenuTrigger asChild>
-				<button
-					className={cn(
-						"h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
-					)}>
-					<Link2Icon className='size-4' />
-				</button>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent className='p-2.5 flex items-center gap-x-2'>
-				<Input placeholder='https://example.com' value={value} onChange={(e) => setValue(e.target.value)}/>
-				<Button onClick={()=> onChange(value)}>
-					Apply
-				</Button>
-			</DropdownMenuContent>
-		</DropdownMenu>
-	)
+	// 				<DropdownMenuTrigger asChild>
+	// 					<button
+	// 						className={cn(
+	// 							"h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
+	// 						)}>
+	// 						<Link2Icon className='size-4' />
+	// 					</button>
+	// 				</DropdownMenuTrigger>
+	// 				<DropdownMenuContent className='p-2.5 flex items-center gap-x-2'>
+	// 					<Input placeholder='https://example.com' value={value} onChange={(e) => setValue(e.target.value)}/>
+	// 					<Button onClick={()=> onChange(value)}>
+	// 						Apply
+	// 					</Button>
+	// 				</DropdownMenuContent>
+	// 			</DropdownMenu>
+	// 		</TooltipTrigger>
+	// 		<TooltipContent>
+	// 			<p>Insert Link</p>
+	// 		</TooltipContent>
+	// 	</Tooltip>
+	// )
+
+	return (
+        // 1. The DropdownMenu component is the main wrapper
+        <DropdownMenu onOpenChange={(open) => {
+            if (open) {
+                setValue(editor?.getAttributes("link").href || "");
+            }
+        }}>
+            {/* 2. The Tooltip component goes inside */}
+            <Tooltip>
+                <TooltipTrigger asChild>
+                    {/* 3. Both triggers wrap the final button */}
+                    <DropdownMenuTrigger asChild>
+                        <button
+                            className={cn(
+                                "h-7 min-w-7 shrink-0 flex items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm",
+                                editor?.isActive("link") && "bg-neutral-200/80"
+                            )}>
+                            <Link2Icon className='size-4' />
+                        </button>
+                    </DropdownMenuTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                    <p>Insert link</p>
+                </TooltipContent>
+            </Tooltip>
+            
+            {/* 4. The Dropdown content remains at the end */}
+            <DropdownMenuContent className='p-2.5 flex items-center gap-x-2'>
+                <Input placeholder='https://example.com' value={value} onChange={(e) => setValue(e.target.value)} />
+                <Button onClick={() => onChange(value)}>
+                    Apply
+                </Button>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
 }
 
 export const ImageButton = () => {
@@ -244,23 +309,30 @@ export const ImageButton = () => {
 	return (
 		<>
 			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<button
-						className={cn(
-							"h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
-						)}>
-						<ImageIcon className='size-4' />
-					</button>
-				</DropdownMenuTrigger>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<DropdownMenuTrigger asChild>
+							<button
+								className={cn(
+									"h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
+								)}>
+								<ImageIcon className='size-4' />
+							</button>
+						</DropdownMenuTrigger>
+					</TooltipTrigger>
+					<TooltipContent>
+						<p>Insert Image</p>
+					</TooltipContent>
+				</Tooltip>
 				<DropdownMenuContent className='p-2.5 flex items-center gap-x-2'>
-					<DropdownMenuItem onClick={onUpload}>
-						<UploadIcon className='size-4 mr-2'/>
-						Upload
-					</DropdownMenuItem>
-					<DropdownMenuItem onClick={()=> setIsDialogOpen(true)}>
-						<SearchIcon className='size-4 mr-2'/>
-						Paste Image Url
-					</DropdownMenuItem>
+							<DropdownMenuItem onClick={onUpload}>
+								<UploadIcon className='size-4 mr-2'/>
+								Upload
+							</DropdownMenuItem>
+							<DropdownMenuItem onClick={()=> setIsDialogOpen(true)}>
+								<SearchIcon className='size-4 mr-2'/>
+								Paste Image Url
+							</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
 
@@ -316,14 +388,21 @@ export const AlignButton = () => {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<button
-					className={cn(
-						"h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
-					)}>
-					<AlignLeftIcon className='size-4' />
-				</button>
-			</DropdownMenuTrigger>
+			<Tooltip>
+				<TooltipTrigger>
+					<DropdownMenuTrigger asChild>
+						<button
+							className={cn(
+								"h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
+							)}>
+							<AlignLeftIcon className='size-4' />
+						</button>
+					</DropdownMenuTrigger>
+				</TooltipTrigger>
+				<TooltipContent>
+					<p>Align</p>
+				</TooltipContent>
+			</Tooltip>
 			<DropdownMenuContent className='p-1 flex flex-col gap-y-1'>
 				{alignments.map(({label, value, icon: Icon}) => (
 					<button
@@ -362,14 +441,21 @@ export const ListButton = () => {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<button
-					className={cn(
-						"h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
-					)}>
-					<ListIcon className='size-4' />
-				</button>
-			</DropdownMenuTrigger>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<DropdownMenuTrigger asChild>
+						<button
+							className={cn(
+								"h-7 min-w-7 shrink-0 mx-1 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
+							)}>
+							<ListIcon className='size-4' />
+						</button>
+					</DropdownMenuTrigger>
+				</TooltipTrigger>
+				<TooltipContent>
+					<p>Add lists</p>
+				</TooltipContent>
+			</Tooltip>
 			<DropdownMenuContent className='p-1 flex flex-col gap-y-1'>
 				{lists.map(({label, icon: Icon, isActive, onClick}) => (
 					<button
@@ -433,7 +519,7 @@ export const FontSizeButton = () => {
 	}
 
 	return (
-		<div className="flex items-center gap-x-0.5">
+		<div className="flex items-center gap-x-2">
 			<button onClick={decrement} className="h-7 shrink-0 flex items-center justify-center rounded-sm hover:bg-neutral-200/80">
 				<MinusIcon className="size-4"/>
 			</button>
@@ -449,6 +535,8 @@ export const FontSizeButton = () => {
 				/>
 			):
 			(
+				<Tooltip>
+					<TooltipTrigger asChild>
 				<button
 					onClick={() => {
 						setIsEditing(true);
@@ -457,6 +545,9 @@ export const FontSizeButton = () => {
 					className="h-7 w-10 text-sm border border-neutral-400 rounded-sm bg-transparent hover:bg-neutral-200/80">
 					{currentFontSize}
 				</button>
+					</TooltipTrigger>
+					<TooltipContent side="top" sideOffset={5}>Font Size</TooltipContent>
+				</Tooltip>
 			)
 			}
 			<button onClick={increment} className="h-7 shrink-0 flex items-center justify-center rounded-sm hover:bg-neutral-200/80">
@@ -479,14 +570,21 @@ export const LineHeightButton = () => {
 	
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<button
-					className={cn(
-						"h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
-					)}>
-					<ListCollapseIcon className='size-4' />
-				</button>
-			</DropdownMenuTrigger>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<DropdownMenuTrigger asChild>
+						<button
+							className={cn(
+								"h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
+							)}>
+							<ListCollapseIcon className='size-4' />
+						</button>
+					</DropdownMenuTrigger>
+				</TooltipTrigger>
+				<TooltipContent>
+					<p>line height</p>
+				</TooltipContent>
+			</Tooltip>
 			<DropdownMenuContent className='p-1 flex flex-col gap-y-1'>
 				{lineHeights.map(({label, value}) => (
 					<button
@@ -508,19 +606,26 @@ interface ToolbarButtonProps {
 	onClick?: ()=> void;
 	isActive?: boolean;
 	icon: LucideIcon;
+	label: string; // for tool-tip
+	shouldDownTooltip?: boolean 
 }
 
-const ToolbarButton = ({onClick, isActive, icon: Icon}: ToolbarButtonProps) => {
+const ToolbarButton = ({onClick, isActive, icon: Icon, label, shouldDownTooltip}: ToolbarButtonProps) => {
 	return (
-		<button
-		onClick={onClick}
-		className={cn(
-			"text-sm h-7 flex items-center justify-center rounded-sm hover:bg-neutral-200/80",
-			isActive && "bg-nuetral-200/80"
-		)}
-		>
-			<Icon className="size-4" />
-		</button>
+		<Tooltip>
+			<TooltipTrigger asChild>
+				<button
+				onClick={onClick}
+				className={cn(
+					"text-sm h-7 flex items-center justify-center rounded-sm hover:bg-neutral-200/80",
+					isActive && "bg-nuetral-200/80"
+				)}
+				>
+					<Icon className="size-4" />
+				</button>
+			</TooltipTrigger>
+			<TooltipContent side={shouldDownTooltip ? "bottom" : "top"} sideOffset={5}>{label}</TooltipContent>
+		</Tooltip>
 	)
 }
 export const Toolbar = () => {
@@ -533,23 +638,27 @@ export const Toolbar = () => {
 		icon: LucideIcon;
 		onClick?: ()=>void;
 		isActive?: boolean;
+		shouldDownTooltip?: boolean
 	}[][] = [
 		[
 			{
 				label: "Undo",
 				icon: Undo2Icon,
 				onClick: ()=> editor?.chain().focus().undo().run(),
+				shouldDownTooltip: true
 			},
 			{
 				label: "Redo",
 				icon: Redo2Icon,
 				onClick: ()=> editor?.chain().focus().redo().run(),
 				isActive: false,
+				shouldDownTooltip: true
 			},
 			{
 				label: "Print",
 				icon: PrinterIcon,
 				onClick: ()=> window.print(),
+				shouldDownTooltip: true
 			},
 			{
 				label: "Spell Check",
@@ -557,7 +666,8 @@ export const Toolbar = () => {
 				onClick: ()=> {
 					const current = editor?.view.dom.getAttribute("spellcheck");
 					editor?.view.dom.setAttribute("spellcheck", current === "false" ? "true" : "false");
-				}
+				},
+				shouldDownTooltip: true
 			}
 		],
 		[
@@ -587,8 +697,8 @@ export const Toolbar = () => {
 			{
 				label: "Comment",
 				icon: MessageSquarePlusIcon,
-				onClick: ()=> console.log("TODO: Add comment"),
-				isActive: false, // TODO: Enable this functionality
+				onClick: ()=> editor?.chain().focus().addPendingComment().run(),
+				isActive: editor?.isActive("liveblocksCommentMark"), // TODO: Enable this functionality
 			},
 			{
 				label: "List Todo",
@@ -606,35 +716,53 @@ export const Toolbar = () => {
 
 
   return (
-	<div className="bg-[#f1f4f9] px-2.5 py-0.5 rounded-[24px] min-h-[40px] flex items-center gap-x-0.5 overflow-x-auto">
-		{sections[0].map((item) => (
-			<ToolbarButton key={item.label} {...item}/>
-		))}
-		<Separator orientation="vertical" className="h-6 bg-neutral-300" />
-		<FontFamilyButton />
-		<Separator orientation="vertical" className="h-6 bg-neutral-300" />
-		<HeadingLevelButton />
-		<Separator orientation="vertical" className="h-6 bg-neutral-300" />
-		<FontSizeButton />
-		<Separator orientation="vertical" className="h-6 bg-neutral-300" />
-		{
-			sections[1].map((item) => (
-				<ToolbarButton key={item.label} {...item}/>
-			))
-		}
-		<TextColorButton />
-		<HighlightColorButton />
-		<Separator orientation="vertical" className="h-6 bg-neutral-300" />
-		<LinkButton />
-		<ImageButton />
-		<AlignButton />
-		<LineHeightButton />
-		<ListButton />
-		{
-			sections[2].map((item) => (
-				<ToolbarButton key={item.label} {...item}/>
-			))
-		}
-	</div>
+	<TooltipProvider delayDuration={0}>
+		<div className="bg-[#f1f4f9] px-2.5 py-0.5 rounded-[24px] min-h-[40px] flex items-center gap-x-3 overflow-x-auto">
+			{sections[0].map((item) => (
+				<ToolbarButton key={item.label} {...item}
+				/>
+			))}
+			<Separator orientation="vertical" className="h-6 bg-neutral-300" />
+			<FontFamilyButton />
+			<Separator orientation="vertical" className="h-6 bg-neutral-300" />
+			<HeadingLevelButton />
+			<Separator orientation="vertical" className="h-6 bg-neutral-300" />
+			<FontSizeButton />
+			<Separator orientation="vertical" className="h-6 bg-neutral-300" />
+			{
+				sections[1].map((item) => (
+					<ToolbarButton key={item.label} {...item}/>
+				))
+			}
+			{/* <TooltipProvider>
+				<Tooltip>
+					<TooltipTrigger>
+						<TextColorButton />
+					</TooltipTrigger>
+					<TooltipContent>
+						<span>Text Color</span>
+					</TooltipContent>
+				</Tooltip>
+			</TooltipProvider> */}
+			<TextColorButton />
+			
+			<Separator orientation="vertical" className="h-6 bg-neutral-300" />
+			<HighlightColorButton />
+			<Separator orientation="vertical" className="h-6 bg-neutral-300" />
+			<div className="flex gap-x-1">
+				<LinkButton />
+				<ImageButton />
+				<AlignButton />
+				<LineHeightButton />
+				<ListButton />
+				<div className="flex gap-x-3">
+				{
+					sections[2].map((item) => (
+						<ToolbarButton key={item.label} {...item}/>
+					))
+				}</div>
+			</div>
+		</div>
+	</TooltipProvider>
   )
 }
