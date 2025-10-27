@@ -1,4 +1,4 @@
-import { ClientSideSuspense, useThreads } from "@liveblocks/react/suspense";
+import { useThreads } from "@liveblocks/react/suspense";
 import {
   AnchoredThreads,
   FloatingComposer,

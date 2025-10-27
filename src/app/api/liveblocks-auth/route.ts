@@ -48,7 +48,7 @@ export async function POST(req: Request) {
 		return new Response("Unauthorized", {status: 401});
 	}
 
-	const userColor = COLORS[Math.floor(Math.random() * COLORS.length)];
+	//const userColor = COLORS[Math.floor(Math.random() * COLORS.length)];
 
 	const name = user.fullName?? user.primaryEmailAddress?.emailAddress ?? "Anonymous";
 	const nameToNumber = name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);

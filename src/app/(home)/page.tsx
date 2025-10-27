@@ -1,17 +1,11 @@
 "use client"
 
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-
 import { Navbar } from './navbar'
 import { TemplateGallery } from './template-gallery'
-import { Authenticated, AuthLoading, Unauthenticated, usePaginatedQuery, useQuery } from 'convex/react'
+import { usePaginatedQuery } from 'convex/react'
 import { api } from '../../../convex/_generated/api'
 import { DocumentsTable } from './documents-table'
 import { useSearchParam } from '@/hooks/use-search-param'
-import { FullscreenLoader } from '@/components/fullscreen-loader'
-import { Children } from 'react'
-import { SignIn } from '@clerk/nextjs'
 
 const Home = () => {
   //const documents = useQuery(api.documents.get).collect();

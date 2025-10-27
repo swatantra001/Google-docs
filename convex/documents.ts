@@ -1,8 +1,8 @@
-import { ChartScatter } from "lucide-react";
+
 import { mutation, query } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
 import { paginationOptsValidator } from "convex/server";
-import { Organization } from "@clerk/nextjs/server";
+
 
 export const get = query({
 	args: {paginationOpts: paginationOptsValidator, search: v.optional(v.string())},
